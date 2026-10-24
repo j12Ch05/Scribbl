@@ -1,4 +1,4 @@
-# IN401_IN432_Project
+# Scribbl
 
 Scribbl Week
     Write it, Schedule it, Done.
