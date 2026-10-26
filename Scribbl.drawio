@@ -1,10 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="neswgl1wYTBNla1Vsz3a">
-        <mxGraphModel dx="1775" dy="982" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="911" dy="412" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-9" connectable="0" parent="1" style="group;fontColor=#F5F5F9;" value="" vertex="1">
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-9" connectable="0" parent="1" style="group;fontColor=#F5F5F9;fontStyle=0" value="" vertex="1">
                     <mxGeometry height="310" width="970" x="290" y="460" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-1" parent="ATQMRgmmLwmYR5vOms3V-9" style="rounded=0;whiteSpace=wrap;html=1;align=left;" value="" vertex="1">
@@ -31,7 +31,7 @@
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-10" parent="ATQMRgmmLwmYR5vOms3V-7" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" value="NEXT.js" vertex="1">
                     <mxGeometry height="60" width="120" x="-610" y="210" as="geometry"/>
                 </mxCell>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-21" parent="ATQMRgmmLwmYR5vOms3V-7" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" value="AWL" vertex="1">
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-21" parent="ATQMRgmmLwmYR5vOms3V-7" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" value="AWS" vertex="1">
                     <mxGeometry height="80" width="60" x="105" y="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-8" connectable="0" parent="ATQMRgmmLwmYR5vOms3V-9" style="group;" value="" vertex="1">
