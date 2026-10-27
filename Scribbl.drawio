@@ -1,10 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="neswgl1wYTBNla1Vsz3a">
-        <mxGraphModel dx="911" dy="412" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1203" dy="589" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-9" connectable="0" parent="1" style="group;fontColor=#F5F5F9;fontStyle=0" value="" vertex="1">
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-9" connectable="0" parent="1" style="group;fontColor=#FFFFF;fontStyle=0" value="" vertex="1">
                     <mxGeometry height="310" width="970" x="290" y="460" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-1" parent="ATQMRgmmLwmYR5vOms3V-9" style="rounded=0;whiteSpace=wrap;html=1;align=left;" value="" vertex="1">
@@ -13,7 +13,7 @@
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-4" parent="ATQMRgmmLwmYR5vOms3V-9" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Front End&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="80" width="120" x="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-18" parent="ATQMRgmmLwmYR5vOms3V-9" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(250, 250, 250));&quot;&gt;hosting&lt;/span&gt;" vertex="1">
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-18" parent="ATQMRgmmLwmYR5vOms3V-9" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="S3" vertex="1">
                     <mxGeometry height="80" width="80" x="100" y="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-7" connectable="0" parent="ATQMRgmmLwmYR5vOms3V-9" style="group" value="" vertex="1">
@@ -28,9 +28,6 @@
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-12" parent="ATQMRgmmLwmYR5vOms3V-7" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" value="PostGreSQL" vertex="1">
                     <mxGeometry height="60" width="120" x="75" y="210" as="geometry"/>
                 </mxCell>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-10" parent="ATQMRgmmLwmYR5vOms3V-7" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" value="NEXT.js" vertex="1">
-                    <mxGeometry height="60" width="120" x="-610" y="210" as="geometry"/>
-                </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-21" parent="ATQMRgmmLwmYR5vOms3V-7" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" value="AWS" vertex="1">
                     <mxGeometry height="80" width="60" x="105" y="100" as="geometry"/>
                 </mxCell>
@@ -43,10 +40,10 @@
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-5" parent="ATQMRgmmLwmYR5vOms3V-8" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="API" vertex="1">
                     <mxGeometry height="77.5" width="120" x="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="m9AGcoZWB2DzX4_noPzK-8" parent="ATQMRgmmLwmYR5vOms3V-8" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;align=center;" value="api" vertex="1">
+                <mxCell id="m9AGcoZWB2DzX4_noPzK-8" parent="ATQMRgmmLwmYR5vOms3V-8" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;align=center;" value="AWS" vertex="1">
                     <mxGeometry height="80" width="80" x="100" y="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="ATQMRgmmLwmYR5vOms3V-11" parent="ATQMRgmmLwmYR5vOms3V-8" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" value="FAST OR NEST" vertex="1">
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-11" parent="ATQMRgmmLwmYR5vOms3V-8" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#0050ef;fontColor=#000000;strokeColor=#B09500;" value="&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;NEST&lt;/span&gt;" vertex="1">
                     <mxGeometry height="60" width="120" x="80" y="210" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-14" edge="1" parent="ATQMRgmmLwmYR5vOms3V-9" source="ATQMRgmmLwmYR5vOms3V-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;" target="ATQMRgmmLwmYR5vOms3V-12">
@@ -60,6 +57,9 @@
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-13" edge="1" parent="ATQMRgmmLwmYR5vOms3V-9" source="ATQMRgmmLwmYR5vOms3V-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;defaultLabelBackgroundColor=page;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="ATQMRgmmLwmYR5vOms3V-11">
                     <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ATQMRgmmLwmYR5vOms3V-10" parent="ATQMRgmmLwmYR5vOms3V-9" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" value="NEXT.js ykun fi react&amp;nbsp;" vertex="1">
+                    <mxGeometry height="60" width="120" x="70" y="210" as="geometry"/>
                 </mxCell>
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-22" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Color Explanations" vertex="1">
                     <mxGeometry height="120" width="140" x="290" y="310" as="geometry"/>
@@ -76,8 +76,8 @@
                 <mxCell id="ATQMRgmmLwmYR5vOms3V-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div style=&quot;color: rgb(255, 255, 255); background-color: rgb(39, 38, 48); font-family: Consolas, Courier New, monospace; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;Scribbl Week&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp; &amp;nbsp; Write it, Schedule it, Done.&lt;/span&gt;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;This project aims to be a service that allows users save personal or &lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;professional notes and tie them to there calendar with email based alerts&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;as well as plan schedules and projects, all saved to a postgreSQL database&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="170" width="700" x="550" y="270" as="geometry"/>
                 </mxCell>
-                <mxCell id="IsBv-5l9G0VolknDQybY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;1. Are there at least two roles with different rights? &lt;br&gt;P: yes one is a planner and other is participatent&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J: Yes, one is an organiser and other is a subscriber&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;2. Are there three related resources, or three lists? &lt;br&gt;P: not sure what is meant here but if it means like database tables then i believe we currently would have a user data table, a notes data table tied to user and a schedule data table tied to user&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J: we have worskspace table,user table,event table&lt;br&gt;&lt;br&gt;3. Is there a rule the server must enforce (capacity, dates, ownership…)?&lt;br&gt;P: user own there own notes (not sure im answering this correctly), is sending email alerts based on&amp;nbsp;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;schedules&lt;/span&gt;&amp;nbsp;users opted into or user set alerts an enforcement of dates ?&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J:User sign in and sign up , otp into schedule via invite link&lt;/font&gt;&lt;/div&gt;" vertex="1">
-                    <mxGeometry height="370" width="1000" x="290" y="830" as="geometry"/>
+                <mxCell id="IsBv-5l9G0VolknDQybY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;1. Are there at least two roles with different rights? &lt;br&gt;P: yes one is a planner and other is participatent&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J: Yes, one is an organiser and other is a subscriber&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;2. Are there three related resources, or three lists? &lt;br&gt;P: not sure what is meant here but if it means like database tables then i believe we currently would have a user data table, a notes data table tied to user and a schedule data table tied to user&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J: we have workspace table,user table,event table&lt;br&gt;&lt;br&gt;3. Is there a rule the server must enforce (capacity, dates, ownership…)?&lt;br&gt;P: user own there own notes (not sure im answering this correctly), is sending email alerts based on&amp;nbsp;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;schedules&lt;/span&gt;&amp;nbsp;users opted into or user set alerts an enforcement of dates ?&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;J:User sign in and sign up , otp into schedule via invite link&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="390" width="1015" x="275" y="820" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
