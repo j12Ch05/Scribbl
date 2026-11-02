@@ -20,3 +20,7 @@ Additional settings features:
 - instead of name of the month we put the number of the month
 - we can add the user to customize the start of the week (Instead sunday that can i put any day they like)
 - we can
+
+check with F about deploying APi on S3
+jsonBinary format for tags
+link claude to figma and use the website diagram to generate (get a theme (generate?))
