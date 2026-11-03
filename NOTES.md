@@ -10,20 +10,16 @@ set a delay timer after user saves notes then async send active workspace info t
 
 on workspace switch prompt user to save or discard changes
 
-add lastMod field to Note and Workspace tables to use as metrics to update database note and workspace info [R?]
-
 event links expire after min(currentDate- eventStartDate, 30) days, and event links are singleUse tokens they expire once used by a user
 
 Additional settings features:
-
+- base date format: DD/MM/YYYY
 - American date format : MM/DD/YYYY
 - Another format: YYYY/MM/DD
 - instead of name of the month we put the number of the month
-- we can add the user to customize the start of the week (Instead sunday that can i put any day they like)
-- we can
+- we can add the user to customize the start of the week (Instead sunday they can put any day they like)
 
-check with F about deploying APi on S3
-jsonBinary format for tags
+have tags use jsonBinary format
 link claude to figma and use the website diagram to generate (get a theme (generate?))
 
-pop up is used for confirmation more than creation
+pop up is used for confirmation (usually delete confirmation) more than creation
