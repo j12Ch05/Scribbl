@@ -15,6 +15,7 @@ add lastMod field to Note and Workspace tables to use as metrics to update datab
 event links expire after min(currentDate- eventStartDate, 30) days, and event links are singleUse tokens they expire once used by a user
 
 Additional settings features:
+
 - American date format : MM/DD/YYYY
 - Another format: YYYY/MM/DD
 - instead of name of the month we put the number of the month
@@ -24,3 +25,5 @@ Additional settings features:
 check with F about deploying APi on S3
 jsonBinary format for tags
 link claude to figma and use the website diagram to generate (get a theme (generate?))
+
+pop up is used for confirmation more than creation
