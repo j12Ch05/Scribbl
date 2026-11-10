@@ -1,3 +1,79 @@
+# ---------- Secrets (never commit) ----------
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+*.secret
+
+# ---------- Dependencies ----------
 node_modules/
+.pnpm-store/
+.yarn/cache/
+.yarn/install-state.gz
+
+# ---------- Build output ----------
+dist/
 build/
+out/
+.vite/
+*.tsbuildinfo
+release/
+*.tgz
+
+# ---------- Prisma ----------
+# Generated client (only if your Prisma version writes it inside the project; CI runs `prisma generate`)
+api/generated/
+api/src/generated/
+# Keep prisma/schema.prisma and prisma/migrations/ in git.
+
+# ---------- Tests and coverage ----------
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# ---------- Logs ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Local database and data dumps ----------
+pgdata/
+*.dump
+*.sql.gz
+*.backup
+export/
+
+# ---------- Infrastructure as code ----------
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+# AWS CDK
+cdk.out/
+cdk.context.json
+
+# ---------- Editors and OS ----------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ---------- draw.io backups ----------
+*.drawio.bkp
+*.dtmp
+.$*.drawio.bkp
+.$*.drawio.dtmp
