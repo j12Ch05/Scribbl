@@ -50,6 +50,17 @@ Each entry says what was decided, why, and what it costs. Newer entries replace 
 
 [AWS account creation date], [repo name], [Prisma version], [Terraform or AWS CDK], [Secrets Manager or Parameter Store path], [owner of the export], [team contact].
 
-
 ## Rony's Remarks
-yaml should be used for documentation 
+
+yaml should be used for documentation
+
+we need something related to openApi.yaml it should go in docs
+
+## what npx prisma generate does
+
+Prisma generates TypeScript files containing:
+
+- Models: TypeScript representations of your database models.
+- Types: Type definitions for your database fields and queries.
+- Prisma Client: Functions that let you perform database operations.
+- Query builders: Type-safe methods for CRUD operations.
