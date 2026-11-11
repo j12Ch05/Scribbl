@@ -35,7 +35,7 @@
 
         - uses: actions/setup-node@v4
           with:
-            node-version: 22 # match `node -v` on your machines
+            node-version: 24
             cache: npm
             cache-dependency-path: api/package-lock.json
 
