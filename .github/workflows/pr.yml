@@ -1,0 +1,71 @@
+  name: PR checks
+
+  on:
+    pull_request:
+
+  concurrency:
+    group: pr-${{ github.ref }}
+    cancel-in-progress: true
+
+  jobs:
+    api:
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: api
+      services:
+        postgres:
+          image: postgres:16
+          env:
+            POSTGRES_USER: scribbl
+            POSTGRES_PASSWORD: ci_password
+            POSTGRES_DB: scribbl_ci
+          ports:
+            - 5432:5432
+          options: >-
+            --health-cmd "pg_isready -U scribbl -d scribbl_ci"
+            --health-interval 5s
+            --health-timeout 5s
+            --health-retries 10
+      env:
+        DATABASE_URL: postgresql://scribbl:ci_password@localhost:5432/scribbl_ci
+        DB_POOL_MAX: "5"
+      steps:
+        - uses: actions/checkout@v4
+
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 22 # match `node -v` on your machines
+            cache: npm
+            cache-dependency-path: api/package-lock.json
+
+        - run: npm ci
+
+        - name: Generate Prisma client
+          run: npx prisma generate
+
+        - name: Lint
+          run: npm run lint:ci
+
+        - name: Build
+          run: npm run build
+
+        - name: Apply migrations to the CI database
+          run: npx prisma migrate deploy
+
+        - name: Migrations match schema.prisma
+          run: |
+            set +e
+            npx prisma migrate diff --exit-code --from-config-datasource --to-schema prisma/schema.prisma
+            code=$?
+            if [ $code -ne 0 ]; then
+              echo "::error::schema.prisma and the migrations differ (exit $code). SQL that would be needed:"
+              npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script
+              exit 1
+            fi
+
+        - name: Unit tests
+          run: npm test
+
+        - name: Module tests
+          run: npm run test:module
