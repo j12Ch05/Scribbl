@@ -1,13 +1,397 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model auth_challenges {
+  ac_id            String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  u_id             String            @db.Uuid
+  ac_purpose       challenge_purpose
+  ac_code_hash     Bytes
+  ac_pending_value String?
+  ac_created_at    DateTime          @default(now()) @db.Timestamptz(6)
+  ac_expires_at    DateTime          @db.Timestamptz(6)
+  ac_attempts      Int               @default(0) @db.SmallInt
+  ac_consumed_at   DateTime?         @db.Timestamptz(6)
+  users            users             @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([u_id, ac_purpose, ac_created_at(sort: Desc)], map: "auth_challenges_lookup")
+}
+
+model email_outbox {
+  eo_id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  u_id               String?        @db.Uuid
+  eo_to_email        String
+  eo_purpose         mail_purpose
+  eo_type            String
+  eo_payload         Json
+  eo_idempotency_key String         @unique
+  eo_priority        Int            @default(5) @db.SmallInt
+  eo_status          outbox_status  @default(pending)
+  eo_attempts        Int            @default(0) @db.SmallInt
+  eo_mail_account_id Int?           @db.SmallInt
+  eo_provider_msg_id String?
+  eo_created_at      DateTime       @default(now()) @db.Timestamptz(6)
+  eo_send_after      DateTime       @default(now()) @db.Timestamptz(6)
+  eo_sent_at         DateTime?      @db.Timestamptz(6)
+  mail_accounts      mail_accounts? @relation(fields: [eo_mail_account_id], references: [ma_id], onDelete: NoAction, onUpdate: NoAction)
+  users              users?         @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([eo_status, eo_priority, eo_send_after], map: "email_outbox_due")
+  @@index([eo_mail_account_id, eo_status, eo_sent_at], map: "email_outbox_sent")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model event_invites {
+  ei_id                                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ev_id                                    String    @db.Uuid
+  ei_created_by                            String    @db.Uuid
+  ei_token_hash                            Bytes     @unique
+  ei_invitee_email                         String
+  ei_created_at                            DateTime  @default(now()) @db.Timestamptz(6)
+  ei_expires_at                            DateTime  @db.Timestamptz(6)
+  ei_used_at                               DateTime? @db.Timestamptz(6)
+  ei_used_by                               String?   @db.Uuid
+  ei_revoked_at                            DateTime? @db.Timestamptz(6)
+  users_event_invites_ei_created_byTousers users     @relation("event_invites_ei_created_byTousers", fields: [ei_created_by], references: [u_id], onDelete: NoAction, onUpdate: NoAction)
+  users_event_invites_ei_used_byTousers    users?    @relation("event_invites_ei_used_byTousers", fields: [ei_used_by], references: [u_id], onUpdate: NoAction)
+  events                                   events    @relation(fields: [ev_id], references: [ev_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([ev_id, ei_invitee_email], map: "one_pending_invite_per_email", where: raw("((ei_used_at IS NULL) AND (ei_revoked_at IS NULL))"))
+  @@index([ei_created_by, ei_created_at], map: "event_invites_creator_day")
+  @@index([ev_id], map: "event_invites_event_idx")
+}
+
+model event_subscriptions {
+  es_id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ev_id              String    @db.Uuid
+  u_id               String    @db.Uuid
+  es_subscribed_at   DateTime  @default(now()) @db.Timestamptz(6)
+  es_unsubscribed_at DateTime? @db.Timestamptz(6)
+  events             events    @relation(fields: [ev_id], references: [ev_id], onDelete: Cascade, onUpdate: NoAction)
+  users              users     @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([ev_id, u_id], map: "one_active_subscription", where: raw("(es_unsubscribed_at IS NULL)"))
+  @@index([ev_id], map: "event_subscriptions_event_idx")
+  @@index([u_id], map: "event_subscriptions_user_idx")
+}
+
+model event_tags {
+  ev_id  String @db.Uuid
+  tg_id  Int
+  events events @relation(fields: [ev_id], references: [ev_id], onDelete: Cascade, onUpdate: NoAction)
+  tags   tags   @relation(fields: [tg_id], references: [tg_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([ev_id, tg_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model events {
+  ev_id               String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  u_id                String                @db.Uuid
+  ev_title            String
+  ev_start_at         DateTime              @db.Timestamptz(6)
+  ev_duration_min     Int
+  ev_end_at           DateTime              @default(now()) @db.Timestamptz(6)
+  ev_timezone         String
+  ev_reminder_min     Int                   @default(60)
+  ev_location         String?
+  ev_description      String?
+  ev_color            String                @default("#6a00ff")
+  ev_max_subscribers  Int                   @default(999)
+  ev_created_at       DateTime              @default(now()) @db.Timestamptz(6)
+  ev_updated_at       DateTime              @default(now()) @db.Timestamptz(6)
+  ev_deleted_at       DateTime?             @db.Timestamptz(6)
+  ev_purge_after      DateTime?             @db.Timestamptz(6)
+  event_invites       event_invites[]
+  event_subscriptions event_subscriptions[]
+  event_tags          event_tags[]
+  users               users                 @relation(fields: [u_id], references: [u_id], onDelete: NoAction, onUpdate: NoAction)
+  note_event_links    note_event_links[]
+  reminder_jobs       reminder_jobs[]
+
+  @@index([u_id, ev_start_at], map: "events_organizer_idx")
+  @@index([ev_start_at, ev_end_at], map: "events_range_idx")
+  @@index([ev_purge_after], map: "events_trash_idx")
+}
+
+model language_types {
+  lt_id          Int             @id @db.SmallInt
+  lt_code        String          @unique
+  lt_name        String
+  lt_is_rtl      Boolean         @default(false)
+  lt_description String?
+  user_settings  user_settings[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model mail_accounts {
+  ma_id              Int            @id @default(autoincrement()) @db.SmallInt
+  ma_purpose         mail_purpose
+  ma_address         String         @unique
+  ma_secret_ref      String
+  ma_daily_limit     Int            @default(100)
+  ma_enabled         Boolean        @default(true)
+  ma_exhausted_until DateTime?      @db.Timestamptz(6)
+  ma_note            String?
+  email_outbox       email_outbox[]
+}
+
+model note_event_links {
+  n_id   String @db.Uuid
+  ev_id  String @db.Uuid
+  events events @relation(fields: [ev_id], references: [ev_id], onDelete: Cascade, onUpdate: NoAction)
+  notes  notes  @relation(fields: [n_id], references: [n_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([n_id, ev_id])
+}
+
+model note_locks {
+  n_id            String   @id @db.Uuid
+  u_id            String   @db.Uuid
+  s_id            String   @db.Uuid
+  nl_acquired_at  DateTime @default(now()) @db.Timestamptz(6)
+  nl_heartbeat_at DateTime @default(now()) @db.Timestamptz(6)
+  nl_expires_at   DateTime @db.Timestamptz(6)
+  notes           notes    @relation(fields: [n_id], references: [n_id], onDelete: Cascade, onUpdate: NoAction)
+  sessions        sessions @relation(fields: [s_id], references: [s_id], onDelete: Cascade, onUpdate: NoAction)
+  users           users    @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([s_id], map: "note_locks_session_idx")
+  @@index([u_id], map: "note_locks_user_idx")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model notes {
+  n_id             String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  w_id             String             @db.Uuid
+  n_name           String
+  n_s3_key         String             @unique
+  n_size_bytes     Int                @default(0)
+  n_version        Int                @default(1)
+  n_last_editor    String?            @db.Uuid
+  n_created_at     DateTime           @default(now()) @db.Timestamptz(6)
+  n_updated_at     DateTime           @default(now()) @db.Timestamptz(6)
+  n_deleted_at     DateTime?          @db.Timestamptz(6)
+  n_purge_after    DateTime?          @db.Timestamptz(6)
+  note_event_links note_event_links[]
+  note_locks       note_locks?
+  users            users?             @relation(fields: [n_last_editor], references: [u_id], onUpdate: NoAction)
+  workspaces       workspaces         @relation(fields: [w_id], references: [w_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([n_purge_after], map: "notes_trash_idx")
+  @@index([w_id], map: "notes_workspace_idx")
+}
+
+model reminder_jobs {
+  rj_id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ev_id        String        @db.Uuid
+  rj_kind      reminder_kind
+  rj_fire_at   DateTime      @db.Timestamptz(6)
+  rj_status    job_status    @default(pending)
+  rj_locked_at DateTime?     @db.Timestamptz(6)
+  events       events        @relation(fields: [ev_id], references: [ev_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([ev_id, rj_kind])
+  @@index([rj_status, rj_fire_at], map: "reminder_jobs_due")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model retention_policy {
+  rp_object String @id
+  rp_days   Int    @default(15)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model sessions {
+  s_id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  u_id             String         @unique(map: "one_active_session_per_user", where: raw("(s_revoked_at IS NULL)")) @db.Uuid
+  s_refresh_hash   Bytes          @unique
+  s_created_at     DateTime       @default(now()) @db.Timestamptz(6)
+  s_last_used_at   DateTime       @default(now()) @db.Timestamptz(6)
+  s_expires_at     DateTime       @db.Timestamptz(6)
+  s_revoked_at     DateTime?      @db.Timestamptz(6)
+  s_revoked_reason revoke_reason?
+  s_user_agent     String?
+  s_ip             String?        @db.Inet
+  note_locks       note_locks[]
+  users            users          @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([u_id], map: "sessions_user_idx")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model tags {
+  tg_id          Int              @id @default(autoincrement())
+  tg_name        String           @unique
+  tg_data        Json
+  event_tags     event_tags[]
+  workspace_tags workspace_tags[]
+
+  @@index([tg_data], map: "tags_data_gin", type: Gin)
+}
+
+model theme_types {
+  tt_id          Int             @id @db.SmallInt
+  tt_name        String          @unique
+  tt_colors      Json
+  tt_description String?
+  user_settings  user_settings[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_settings {
+  u_id              String         @id @db.Uuid
+  tt_id             Int            @db.SmallInt
+  lt_id             Int            @db.SmallInt
+  us_font           String         @default("system")
+  us_accent_color   String         @default("#6a00ff")
+  us_time_24h       Boolean        @default(true)
+  us_date_format    date_format    @default(DMY)
+  us_month_numeric  Boolean        @default(false)
+  us_week_start     Int            @default(1) @db.SmallInt
+  us_timezone       String         @default("UTC")
+  us_high_contrast  Boolean        @default(false)
+  us_large_text     Boolean        @default(false)
+  us_reduced_motion Boolean        @default(false)
+  language_types    language_types @relation(fields: [lt_id], references: [lt_id], onDelete: NoAction, onUpdate: NoAction)
+  theme_types       theme_types    @relation(fields: [tt_id], references: [tt_id], onDelete: NoAction, onUpdate: NoAction)
+  users             users          @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  u_id                                             String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  us_username                                      String
+  us_username_changed_at                           DateTime?             @db.Timestamptz(6)
+  us_first_name_enc                                Bytes
+  us_last_name_enc                                 Bytes
+  us_email                                         String                @unique(map: "users_email_uq")
+  us_phone_enc                                     Bytes?
+  us_birth_date_enc                                Bytes
+  us_address_enc                                   Bytes?
+  us_password_hash                                 String
+  us_email_verified_at                             DateTime?             @db.Timestamptz(6)
+  us_tos_version                                   String
+  us_tos_accepted_at                               DateTime              @db.Timestamptz(6)
+  us_failed_logins                                 Int                   @default(0) @db.SmallInt
+  us_locked_until                                  DateTime?             @db.Timestamptz(6)
+  us_created_at                                    DateTime              @default(now()) @db.Timestamptz(6)
+  us_deleted_at                                    DateTime?             @db.Timestamptz(6)
+  us_purge_after                                   DateTime?             @db.Timestamptz(6)
+  auth_challenges                                  auth_challenges[]
+  email_outbox                                     email_outbox[]
+  event_invites_event_invites_ei_created_byTousers event_invites[]       @relation("event_invites_ei_created_byTousers")
+  event_invites_event_invites_ei_used_byTousers    event_invites[]       @relation("event_invites_ei_used_byTousers")
+  event_subscriptions                              event_subscriptions[]
+  events                                           events[]
+  note_locks                                       note_locks[]
+  notes                                            notes[]
+  sessions                                         sessions?
+  user_settings                                    user_settings?
+  workspace_members                                workspace_members[]
+  workspaces                                       workspaces[]
+
+  @@index([us_purge_after], map: "users_purge_idx")
+}
+
+model workspace_members {
+  w_id           String         @db.Uuid
+  u_id           String         @db.Uuid
+  wm_permission  workspace_perm @default(read)
+  wm_granted_at  DateTime       @default(now()) @db.Timestamptz(6)
+  wm_accepted_at DateTime?      @db.Timestamptz(6)
+  users          users          @relation(fields: [u_id], references: [u_id], onDelete: Cascade, onUpdate: NoAction)
+  workspaces     workspaces     @relation(fields: [w_id], references: [w_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([w_id, u_id])
+  @@index([u_id], map: "workspace_members_user_idx")
+}
+
+model workspace_tags {
+  w_id       String     @db.Uuid
+  tg_id      Int
+  tags       tags       @relation(fields: [tg_id], references: [tg_id], onDelete: Cascade, onUpdate: NoAction)
+  workspaces workspaces @relation(fields: [w_id], references: [w_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([w_id, tg_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model workspaces {
+  w_id              String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  u_id              String              @db.Uuid
+  w_name            String
+  w_created_at      DateTime            @default(now()) @db.Timestamptz(6)
+  w_updated_at      DateTime            @default(now()) @db.Timestamptz(6)
+  w_deleted_at      DateTime?           @db.Timestamptz(6)
+  w_purge_after     DateTime?           @db.Timestamptz(6)
+  notes             notes[]
+  workspace_members workspace_members[]
+  workspace_tags    workspace_tags[]
+  users             users               @relation(fields: [u_id], references: [u_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([u_id], map: "workspaces_owner_idx")
+  @@index([w_purge_after], map: "workspaces_trash_idx")
+}
+
+enum challenge_purpose {
+  password_reset
+  email_verify
+  email_change
+  account_restore
+}
+
+enum date_format {
+  DMY
+  MDY
+  YMD
+}
+
+enum job_status {
+  pending
+  processing
+  done
+  failed
+  cancelled
+}
+
+enum mail_purpose {
+  security
+  reminder
+  invite
+}
+
+enum outbox_status {
+  pending
+  processing
+  sent
+  failed
+  cancelled
+}
+
+enum reminder_kind {
+  lead
+  start
+}
+
+enum revoke_reason {
+  signed_out
+  replaced_by_new_login
+  expired
+  password_changed
+  account_deleted
+  locked
+}
+
+enum workspace_perm {
+  read
+  write
 }
