@@ -77,3 +77,11 @@ Thumbs.db
 *.dtmp
 .$*.drawio.bkp
 .$*.drawio.dtmp
+
+# ---------- AI tool folders ----------
+.claude/
+.windsurf/
+.agents/
+
+# ----------------------
+/generated/prisma

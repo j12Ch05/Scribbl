@@ -4,7 +4,7 @@ services:
     container_name: scribbl-db
     environment:
       POSTGRES_USER: scribbl
-      POSTGRES_PASSWORD: scribbl
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: scribbl
     ports:
       - "5432:5432"
