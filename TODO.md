@@ -48,3 +48,6 @@ Step numbers refer to section 9 of `PROJECT_PLAN.md`. Owners: P = backend and AW
 
 ## Not in v1
 SMS, Google sign-in, websocket chat, meeting-app integration, Google Maps, recurring events, note history, custom domain, copy-link invites, Gmail pool beyond testing.
+
+## Misc Tasks
+- ask J to look into the github pr thing for step 9.A.10
